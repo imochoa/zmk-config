@@ -10,6 +10,7 @@
 #define HRMR(k1,k2,k3,k4) &ht RGUI k1  &ht RCTRL k2  &ht RALT k3  &ht RSHFT k4
 
 / {
+   // https://zmk.dev/docs/keymaps/behaviors#key-press-behaviors
     behaviors {
         ht: hold_tap {
             compatible = "zmk,behavior-hold-tap";
@@ -20,6 +21,14 @@
             require-prior-idle-ms = <100>;
             bindings = <&kp>, <&kp>;
         };
+    // https://zmk.dev/docs/keymaps/behaviors#user-defined-behaviors
+        td0: tap_dance_0 {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp N1>, <&kp N2>, <&kp N3>;
+        };
+    //
     };
 
     conditional_layers {
@@ -34,18 +43,18 @@
         compatible = "zmk,keymap";
         default_layer {
             bindings = <
-        //╭──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────╮
-        //│  Q       │  W       │  E       │  R       │  T       │   │  Y       │  U       │  I       │  O       │  P       │
-            &kp Q      &kp W      &kp E      &kp R      &kp T          &kp Y      &kp U      &kp I      &kp O      &kp P
-        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│  A       │  S       │  D       │  F       │  G       │   │  H       │  J       │  K       │  L       │ ' "      │
-            HRML(A,        S,         D,         F)     &kp G          &kp H      HRMR(J,        K,         L,        SQT)
-        //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
-        //│  Z       │  X       │  C       │  V       │  B       │   │  N       │  M       │ , <      │ . >      │ / ?      │
-            &kp Z      &kp X      &kp C      &kp V      &kp B          &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH
-        //╰──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────╯
-                                            &lt 2 TAB   &kp ENTER     &kp SPACE  &lt 1 BSPC
-        //                                 ╰──────────┴──────────╯   ╰──────────┴──────────╯
+        //╭──────────┬──────────┬──────────┬────────────┬──────────╮   ╭──────────┬────────────┬──────────┬──────────┬──────────╮
+        //│  Q       │  W       │  E       │  R         │  T       │   │  Y       │    U       │  I       │  O       │  P       │
+            &kp Q      &kp W      &kp E      &kp R        &kp T          &kp Y        &kp U      &kp I      &kp O      &kp P
+        //├──────────┼──────────┼──────────┼────────────┼──────────┤   ├──────────┼────────────┼──────────┼──────────┼──────────┤
+        //│  A       │  S       │  D       │  F         │  G       │   │  H       │    J       │  K       │  L       │ ' "      │
+            HRML(A,        S,         D,         F)       &kp G          &kp H        HRMR(J,        K,         L,        SQT)
+        //├──────────┼──────────┼──────────┼────────────┼──────────┤   ├──────────┼────────────┼──────────┼──────────┼──────────┤
+        //│  Z       │  X       │  C       │  V         │  B       │   │  N       │    M       │ , <      │ . >      │ / ?      │
+            &kp Z      &kp X      &kp C      &kp V        &kp B          &kp N        &kp M      &kp COMMA  &kp DOT    &kp FSLH
+        //╰──────────┴──────────┴──────────┼────────────┼──────────┤   ├──────────┼────────────┼──────────┴──────────┴──────────╯
+                                            &lt 2 BSPC    &kp TAB       &kp ENTER  &lt 1 SPACE
+        //                                 ╰────────────┴──────────╯   ╰──────────┴────────────╯
             >;
         };
 
@@ -90,7 +99,7 @@
            &sys_reset  &trans     &trans     &trans    &bt BT_SEL 0    &trans     &trans     &trans     &trans    &sys_reset
         //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
         //│BOOTLOADER│          │          │          │PROFILE 1 │   │          │          │          │          │BOOTLOADER│
-          &bootloader  &trans     &trans     &trans    &bt BT_SEL 1    &trans     &trans     &trans     &trans    &bootloader
+          &bootloader  &trans     &trans     &trans    &bt BT_SEL 1    &trans     &trans     &trans  &studio_unlock  &bootloader
         //├──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┤
         //│          │          │          │ CLEAR BT │PROFILE 2 │   │          │          │          │          │          │
             &trans     &trans     &trans    &bt BT_CLR &bt BT_SEL 2    &trans     &trans     &trans     &trans     &trans
